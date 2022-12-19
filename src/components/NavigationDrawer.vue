@@ -20,8 +20,11 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title></v-list-item-title>
-            <v-btn text primary :to="item.to">{{ item.title }}</v-btn>
+            <router-link :to="item.to">
+              <v-list-item-title class="black--text text-decoration-none">
+                {{ item.title }}
+              </v-list-item-title>
+            </router-link>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -43,7 +46,7 @@ export default {
   },
   data() {
     return {
-      items: [{ title: 'Dashboard', to: '/home', icon: 'mdi-view-dashboard' }],
+      items: [{ title: 'Dashboard', to: '/', icon: 'mdi-view-dashboard' }],
     };
   },
 };
