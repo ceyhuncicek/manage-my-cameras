@@ -45,7 +45,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import userService from '@/services/auth.service';
+import authService from '@/services/auth.service';
 
 export default {
   name: 'LoginView',
@@ -79,7 +79,7 @@ export default {
 
       this.$store.commit('auth/loginRequest');
 
-      userService
+      authService
         .login(email, password)
         .then((authData) => {
           this.login(authData);
@@ -87,9 +87,10 @@ export default {
         })
         .catch((error) => {
           this.$store.commit('auth/loginFailure');
-          this.errors = {
-            password: error?.error_description || 'Email or password is incorrect',
-          };
+          this.errors = 'qqq';
+          // this.errors = {
+          //   password: error?.error_description || 'Email or password is incorrect',
+          // };
         });
     },
   },
