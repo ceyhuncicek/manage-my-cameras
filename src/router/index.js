@@ -15,6 +15,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "login" */ '@/views/LoginView.vue'),
   },
   {
+    path: '/cameras/:id',
+    name: 'cameras-id',
+    component: () => import(/* webpackChunkName: "cameras-id" */ '@/views/cameras/_id.vue'),
+  },
+  {
     path: '/404',
     name: '404',
     component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue'),
