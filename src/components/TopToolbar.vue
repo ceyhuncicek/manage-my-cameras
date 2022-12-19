@@ -22,7 +22,6 @@ export default {
   computed: {},
   data() {
     return {
-      drawer: false,
       items: [{ title: 'Dashboard', icon: 'mdi-view-dashboard' }],
     };
   },
