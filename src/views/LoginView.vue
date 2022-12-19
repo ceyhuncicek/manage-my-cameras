@@ -10,13 +10,15 @@
         <VForm @submit.prevent="() => {}">
           <VRow>
             <VCol cols="12">
-              <VTextField v-model="email" outlined label="Email" type="email" />
+              <VTextField v-model="email" outlined label="Email" type="email"></VTextField>
               <VTextField
                 outlined
                 v-model="password"
                 label="Password"
+                :error-messages="errors.password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-icon="isPasswordVisible ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                @input="errors.password = null"
                 @click:append="() => (isPasswordVisible = !isPasswordVisible)" />
             </VCol>
             <VCol cols="12">
@@ -25,8 +27,9 @@
                 block
                 type="submit"
                 color="primary"
-                :loading="loadingStatus.login"
-                :disabled="loadingStatus.login">
+                :loading="loggingIn"
+                :disabled="loggingIn"
+                @click.prevent="handleLogin">
                 <span class="white--text">Login</span>
                 <template v-slot:loader>
                   <span>Loading...</span>
@@ -41,17 +44,54 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import userService from '@/services/auth.service';
+
 export default {
   name: 'LoginView',
-  data() {
-    return {
-      loadingStatus: {
-        login: false,
-      },
-      email: '',
-      password: '',
-      isPasswordVisible: false,
-    };
+  data: () => ({
+    loadingStatus: {
+      login: false,
+    },
+    errors: {},
+    email: '',
+    password: '',
+    isPasswordVisible: false,
+  }),
+  computed: {
+    loggingIn() {
+      return this.$store.state.auth.status.loggingIn;
+    },
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
+  mounted() {
+    if (this.loggedIn) {
+      this.$router.push({ name: 'home' });
+    }
+  },
+  methods: {
+    ...mapActions('auth', ['login']),
+    async handleLogin() {
+      this.loadingStatus.login = true;
+      const { email, password } = this;
+
+      this.$store.commit('auth/loginRequest');
+
+      userService
+        .login(email, password)
+        .then((authData) => {
+          this.login(authData);
+          this.$router.push({ name: 'home' });
+        })
+        .catch((error) => {
+          this.$store.commit('auth/loginFailure');
+          this.errors = {
+            password: error?.error_description || 'Email or password is incorrect',
+          };
+        });
+    },
   },
 };
 </script>
