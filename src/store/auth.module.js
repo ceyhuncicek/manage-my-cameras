@@ -1,3 +1,11 @@
+const saveDataToStorage = (authData) => {
+  localStorage.setItem('auth', JSON.stringify(authData));
+};
+
+const deleteDataFromStorage = () => {
+  localStorage.removeItem('auth');
+};
+
 const authUser = JSON.parse(localStorage.getItem('auth'));
 const initialState = authUser
   ? { status: { loggedIn: true }, authUser }
@@ -35,13 +43,4 @@ export const auth = {
     },
   },
 };
-
-const saveDataToStorage = (authData) => {
-  localStorage.setItem('auth', JSON.stringify(authData));
-};
-
-const deleteDataFromStorage = () => {
-  localStorage.removeItem('auth');
-};
-
 export default auth;

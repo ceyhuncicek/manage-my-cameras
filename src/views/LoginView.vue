@@ -87,10 +87,9 @@ export default {
         })
         .catch((error) => {
           this.$store.commit('auth/loginFailure');
-          this.errors = 'qqq';
-          // this.errors = {
-          //   password: error?.error_description || 'Email or password is incorrect',
-          // };
+          this.errors = {
+            password: error?.error_description || 'Email or password is incorrect',
+          };
         });
     },
   },
