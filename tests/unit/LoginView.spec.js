@@ -1,5 +1,5 @@
 import Vuetify from 'vuetify';
-import { mount, shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import LoginView from '@/views/LoginView.vue';
 import authService from '../../src/services/auth.service';
 
@@ -85,10 +85,7 @@ describe('LoginView.vue', () => {
   });
 
   it('should handleLogin on failure', async () => {
-    const login = jest.fn();
-
     authService.login = jest.fn(() => Promise.reject(errorData));
-
     const wrapper = mount(LoginView, {
       vuetify,
       mocks: { $store, authService },
