@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <TopToolbar v-if="loggedIn" class="px-6 flex-grow-0" />
-    <NavigationDrawer />
+    <NavigationDrawer v-if="loggedIn" />
     <v-main class="w-100">
       <div class="pa-6">
         <router-view />
